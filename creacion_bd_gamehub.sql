@@ -73,7 +73,7 @@ INSERT INTO USUARIO (Nombre, Email, Contrasena, Rol) VALUES
 ('Ruben Albarran', 'ruben@gamehub.com', '$2b$12$hashfalso000', 'Suscriptor'),
 ('GamerPro99', 'gamer99@hotmail.com', '$2b$12$hashfalso111', 'Suscriptor');
 
--- 2. Insertar Videojuegos (Extraídos literalmente del catálogo de Figma de Ian)
+-- 2. Insertar Videojuegos
 -- Nota: Las notas de la comunidad (4.X en Figma) se han escalado sobre 10 para cumplir el CHECK
 INSERT INTO VIDEOJUEGO (Titulo, Nota_Prensa, Nota_Comunidad, Descripcion, Fecha_Lanzamiento) VALUES 
 ('Cyberpunk 2077', 8.5, 9.0, 'RPG de acción en mundo abierto ambientado en la megalópolis de Night City, donde juegas como un mercenario cyberpunk envuelto en una lucha de supervivencia.', '2020-12-10'),
