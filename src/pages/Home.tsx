@@ -38,14 +38,14 @@ export function Home() {
   return (
     <div className="min-h-screen pb-20 md:pb-8">
       <div
-        className="relative h-[60vh] flex items-center justify-center bg-cover bg-center"
+        className="relative min-h-[50vh] flex items-center justify-center bg-cover bg-center py-12"
         style={{
           backgroundImage:
             'linear-gradient(to bottom, rgba(18, 18, 18, 0.7), rgba(18, 18, 18, 0.95)), url(https://images.unsplash.com/photo-1616093700899-dddbfc0fe7d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1600)',
         }}
       >
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
             {t('welcomeTitle')}
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
@@ -58,7 +58,7 @@ export function Home() {
               className="text-lg py-4"
             />
           </div>
-          <div className="flex items-center justify-center gap-3 mt-6">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6 w-full sm:w-auto px-4">
             <Button variant="primary" size="lg">
               <Gamepad2 className="w-5 h-5 mr-2" />
               {t('exploreGames')}
