@@ -21,23 +21,47 @@ export default defineConfig({
         scope: '/',
         start_url: '/',
         icons: [
-          {
-            src: 'icons/icon-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: 'icons/icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-          {
-            src: 'icons/icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable',
-          },
-        ],
+        {
+          src: '/icons/icon-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'any' // Solo 'any'
+        },
+        {
+          src: '/icons/icon-192x192.png', // O un icono específico para recortar
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'maskable' // Solo 'maskable'
+        },
+        {
+          src: '/icons/icon-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: '/icons/icon-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable'
+        }
+      ],
+      screenshots: [
+      {
+        src: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1280&h=720&fit=crop&q=80',
+        sizes: '1280x720',
+        type: 'image/jpeg',
+        form_factor: 'wide',
+        label: 'Game-Hub en PC'
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=720&h=1280&fit=crop&q=80',
+        sizes: '720x1280',
+        type: 'image/jpeg',
+        form_factor: 'narrow',
+        label: 'Game-Hub en Móvil'
+      }
+    ]
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
