@@ -32,14 +32,32 @@ export interface Evento {
   ID_Evento: number;
   Titulo: string;
   Descripcion: string;
-  Fecha_Inicio: string;
-  Fecha_Fin: string;
+  Fecha_Evento?: string;      // Para el SQL de tu compañero
+  Fecha_Inicio?: string;      // Por si Miguel lo cambia
+  Fecha_Fin?: string;
   Tipo: string;
+  Imagen_URL?: string;
+  
 }
 
 // SESIÓN
-export const guardarSesion = (usuario: Usuario) =>
-  localStorage.setItem('usuario', JSON.stringify(usuario));
+export const guardarSesion = (usuario: {
+  id_usuario: number;
+  email: string;
+  nombre?: string;
+  Nombre?: string;
+  rol?: string;
+  Rol?: string;
+}) => {
+  // Normaliza tanto mayúsculas como minúsculas
+  const normalizado = {
+    id_usuario: usuario.id_usuario,
+    Nombre: usuario.nombre || usuario.Nombre,
+    email: usuario.email,
+    Rol: usuario.rol || usuario.Rol || 'Suscriptor',
+  };
+  localStorage.setItem('usuario', JSON.stringify(normalizado));
+};
 
 export const obtenerSesion = (): Usuario | null =>
   JSON.parse(localStorage.getItem('usuario') || 'null');

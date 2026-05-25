@@ -11,7 +11,6 @@ export function Auth() {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // CORREGIDO: Añadido el estado para la confirmación de contraseña
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -20,7 +19,6 @@ export function Auth() {
     e.preventDefault();
     setLoading(true);
 
-    // CORREGIDO: Validación previa en el Frontend antes de enviar los datos
     if (!isLogin && password !== confirmPassword) {
       alert('Las contraseñas no coinciden');
       setLoading(false);
@@ -30,22 +28,24 @@ export function Auth() {
     try {
       if (isLogin) {
         const data = await loginUser(email, password);
-        // Ajustado para manejar la respuesta común de un backend FastAPI/Express
+        console.log('Respuesta login:', data); 
+        
         if (data && (data.status === 'success' || data.token || data.usuario)) {
           guardarSesion(data.usuario || data);
           navigate('/dashboard');
         } else {
-          alert('Credenciales incorrectas');
+          alert(data?.message || 'Credenciales incorrectas');
         }
       } else {
         await registerUser(nombre, email, password);
         alert('Cuenta creada con éxito. Ya puedes iniciar sesión.');
-        // Limpiamos campos de contraseña al cambiar de vista
+        
         setPassword('');
         setConfirmPassword('');
         setIsLogin(true);
       }
-    } catch {
+    } catch (err) {
+      console.error('Error de conexión:', err);
       alert('Error de conexión con el servidor');
     } finally {
       setLoading(false);
@@ -123,7 +123,6 @@ export function Auth() {
             {!isLogin && (
               <div>
                 <label className="block text-sm font-medium mb-2">Confirmar contraseña</label>
-                {/* CORREGIDO: Input ahora controlado con value y onChange */}
                 <Input
                   type="password"
                   icon={<Lock className="w-4 h-4" />}

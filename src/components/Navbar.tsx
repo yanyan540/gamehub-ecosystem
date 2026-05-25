@@ -3,19 +3,17 @@ import { Search, Home, TrendingUp, User, Settings, Newspaper, Globe, Calendar } 
 import { Button } from './Button';
 import { cn } from '../lib/utils';
 import { useApp } from '../context/AppContext';
+import { obtenerSesion, cerrarSesion } from '../services/api';
 
 export function Navbar() {
   const location = useLocation();
-  const { language, setLanguage, t, userRole, setUserRole } = useApp();
+  const { language, setLanguage, t } = useApp();
+  const sesion = obtenerSesion();
 
   const isActive = (path: string) => location.pathname === path;
 
   const toggleLanguage = () => {
     setLanguage(language === 'es' ? 'en' : 'es');
-  };
-
-  const toggleRole = () => {
-    setUserRole(userRole === 'user' ? 'admin' : 'user');
   };
 
   return (
@@ -87,32 +85,40 @@ export function Navbar() {
           </Link>
         </div>
 
+        {/* Bloque de acciones de sesión dinámico */}
         <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleLanguage}
-            className="gap-1.5"
-          >
+          <Button variant="ghost" size="sm" onClick={toggleLanguage} className="gap-1.5">
             <Globe className="w-4 h-4" />
             <span className="font-semibold">{language.toUpperCase()}</span>
           </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleRole}
-            title="Toggle user role (demo)"
-          >
-            {userRole === 'admin' ? <Settings className="w-4 h-4" /> : <User className="w-4 h-4" />}
-          </Button>
+          
           <Link to="/search">
             <Button variant="ghost" size="sm">
               <Search className="w-4 h-4" />
             </Button>
           </Link>
-          <Link to="/auth">
-            <Button variant="outline" size="sm">{t('login')}</Button>
-          </Link>
+
+          {sesion ? (
+            <div className="flex items-center gap-2">
+              <Link to={sesion.Rol === 'Administrador' ? '/admin' : '/dashboard'}>
+                <Button variant="ghost" size="sm" className="gap-1">
+                  <User className="w-4 h-4" />
+                  <span className="ml-1 hidden sm:inline">{sesion.Nombre}</span>
+                </Button>
+              </Link>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => { cerrarSesion(); window.location.href = '/'; }}
+              >
+                Salir
+              </Button>
+            </div>
+          ) : (
+            <Link to="/auth">
+              <Button variant="outline" size="sm">{t('login')}</Button>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
@@ -121,16 +127,22 @@ export function Navbar() {
 
 export function MobileNav() {
   const location = useLocation();
-  const { t, userRole } = useApp();
+  const { t } = useApp();
+  const sesion = obtenerSesion();
 
   const isActive = (path: string) => location.pathname === path;
+  const isAdmin = sesion?.Rol === 'Administrador';
 
   const navItems = [
     { path: '/', icon: Home, label: t('home') },
     { path: '/games', icon: TrendingUp, label: t('games') },
     { path: '/calendar', icon: Calendar, label: t('calendar') },
     { path: '/news', icon: Newspaper, label: t('news') },
-    { path: userRole === 'admin' ? '/admin' : '/dashboard', icon: userRole === 'admin' ? Settings : User, label: userRole === 'admin' ? t('admin') : t('profile') },
+    { 
+      path: isAdmin ? '/admin' : '/dashboard', 
+      icon: isAdmin ? Settings : User, 
+      label: isAdmin ? t('admin') : t('profile') 
+    },
   ];
 
   return (

@@ -14,8 +14,22 @@ import {
   CheckCircle,
   XCircle,
 } from 'lucide-react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { obtenerSesion } from '../services/api';
 
 export function AdminPanel() {
+  const navigate = useNavigate();
+
+  // 1. Control de seguridad (Efecto de sesión)
+  useEffect(() => {
+    const sesion = obtenerSesion();
+    if (!sesion || sesion.Rol !== 'Administrador') {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
+
+  // 2. Datos simulados del panel de administración
   const stats = [
     { label: 'Usuarios Totales', value: '45,231', change: '+12%', icon: Users, trend: 'up' },
     { label: 'Noticias Publicadas', value: '1,234', change: '+8%', icon: FileText, trend: 'up' },
@@ -93,6 +107,7 @@ export function AdminPanel() {
     },
   ];
 
+  // 3. Renderizado de la interfaz del componente
   return (
     <div className="min-h-screen pb-20 md:pb-8">
       <div className="container mx-auto px-4 py-8">
