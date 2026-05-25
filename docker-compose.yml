@@ -25,3 +25,18 @@ services:
       - "8000:8000"
     depends_on:
       - db
+
+  frontend:
+    image: node:18-alpine
+    container_name: gamehub_frontend
+    restart: always
+    volumes:
+      - ./gamehub-ecosystem:/app  # Apunta a la carpeta donde está tu código React
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000 # Para que se conecte al backend local
+    depends_on:
+      - backend
