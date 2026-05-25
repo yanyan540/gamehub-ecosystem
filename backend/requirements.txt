@@ -1,4 +1,4 @@
 fastapi==0.110.0
 uvicorn==0.28.0
-mysql-connector-python==8.3.0
-cryptography==42.0.5
+mysql-connector-python==9.1.0
+cryptography==46.0.5
